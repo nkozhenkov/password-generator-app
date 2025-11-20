@@ -1,12 +1,156 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Генератор паролей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .password-result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e8f5e8;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+
+        .password-text {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            color: #155724;
+            word-break: break-all;
+        }
+    </style>
 </head>
 <body>
-    <h1>🔐 Добро пожаловать в генератор паролей!</h1>
-    <p>Скоро здесь будет крутой генератор паролей!</p>
-    <p>А пока просто проверяем что Spring Boot работает! 🎉</p>
+<div class="container">
+    <h1>🔐 Генератор паролей</h1>
+
+    <!-- Форма для настроек пароля -->
+    <form action="/generate" method="post">
+        <!-- Поле для длины пароля -->
+        <div class="form-group">
+            <label for="length">Длина пароля:</label>
+            <input type="number"
+                   id="length"
+                   name="length"
+                   value="12"
+                   min="6"
+                   max="50"
+                   required>
+        </div>
+
+        <!-- Чекбоксы для типов символов -->
+        <div class="form-group">
+            <label>Типы символов:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox"
+                           id="uppercase"
+                           name="uppercase"
+                           checked>
+                    <label for="uppercase">A-Z (Большие буквы)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox"
+                           id="lowercase"
+                           name="lowercase"
+                           checked>
+                    <label for="lowercase">a-z (Маленькие буквы)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox"
+                           id="numbers"
+                           name="numbers"
+                           checked>
+                    <label for="numbers">0-9 (Цифры)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox"
+                           id="symbols"
+                           name="symbols">
+                    <label for="symbols">!@#$% (Спецсимволы)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка генерации -->
+        <button type="submit">Сгенерировать пароль</button>
+    </form>
+
+    <!-- Блок для отображения результата -->
+    <div class="password-result" th:if="${generatedPassword}">
+        <h3>✅ Ваш сгенерированный пароль:</h3>
+        <div class="password-text" th:text="${generatedPassword}"></div>
+    </div>
+</div>
 </body>
 </html>
