@@ -19,7 +19,56 @@ public class PasswordService {
     public String generatePassword(int length, boolean uppercase, boolean lowercase,
                                    boolean numbers, boolean symbols) {
 
-        return "TestPassword123!";
+        if (!uppercase && !lowercase && !numbers && !symbols) {
+            throw new IllegalArgumentException("Должен быть выбран хотя бы один тип символов!");
+        }
+
+        StringBuilder availableChars = new StringBuilder();
+        if (uppercase) {
+            availableChars.append(UPPERCASE);
+        }
+
+        if (lowercase) {
+            availableChars.append(LOWERCASE);
+        }
+
+        if (numbers) {
+            availableChars.append(NUMBERS);
+        }
+
+        if (symbols) {
+            availableChars.append(SYMBOLS);
+        }
+
+        StringBuilder password = new StringBuilder();
+
+        List<Character> guaranteedChars = new ArrayList<>();
+        if (uppercase) {
+            guaranteedChars.add(getRandomChar(UPPERCASE));
+        }
+
+        if (lowercase) {
+            guaranteedChars.add(getRandomChar(LOWERCASE));
+        }
+
+        if (numbers) {
+            guaranteedChars.add(getRandomChar(NUMBERS));
+        }
+
+        if (symbols) {
+            guaranteedChars.add(getRandomChar(SYMBOLS));
+        }
+
+        for (Character c : guaranteedChars) {
+            password.append(c);
+        }
+
+        while (password.length() < length) {
+            char randomChar = getRandomChar(availableChars.toString());
+            password.append(randomChar);
+        }
+
+        return shuffleString(password.toString());
     }
 
     private char getRandomChar(String charSet) {

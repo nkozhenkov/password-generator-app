@@ -30,9 +30,21 @@ public class PasswordController {
             @RequestParam(required = false) boolean symbols,
             Model model) {
 
-        String password = passwordService.generatePassword(length, uppercase, lowercase, numbers, symbols);
+        try {
+            String password = passwordService.generatePassword(length, uppercase, lowercase, numbers, symbols);
+            model.addAttribute("generatedPassword", password);
+            model.addAttribute("success", true);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("success", false);
+        }
 
-        model.addAttribute("generatedPassword", password);
+
+        model.addAttribute("length", length);
+        model.addAttribute("uppercase", uppercase);
+        model.addAttribute("lowercase", lowercase);
+        model.addAttribute("numbers", numbers);
+        model.addAttribute("symbols", symbols);
 
         return "home";
 

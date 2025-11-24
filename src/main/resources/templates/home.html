@@ -88,6 +88,24 @@
             color: #155724;
             word-break: break-all;
         }
+
+        .error-message {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8d7da;
+            border-radius: 5px;
+            border-left: 4px solid #dc3545;
+        }
+
+        .error-content h3 {
+            color: #721c24;
+            margin-bottom: 10px;
+        }
+
+        .error-content p {
+            color: #721c24;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -102,7 +120,7 @@
             <input type="number"
                    id="length"
                    name="length"
-                   value="12"
+                   th:value="${length != null ? length : 12}"
                    min="6"
                    max="50"
                    required>
@@ -116,27 +134,28 @@
                     <input type="checkbox"
                            id="uppercase"
                            name="uppercase"
-                           checked>
+                           th:checked="${uppercase != null ? uppercase : true}">
                     <label for="uppercase">A-Z (Большие буквы)</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox"
                            id="lowercase"
                            name="lowercase"
-                           checked>
+                           th:checked="${lowercase != null ? lowercase : true}">
                     <label for="lowercase">a-z (Маленькие буквы)</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox"
                            id="numbers"
                            name="numbers"
-                           checked>
+                           th:checked="${numbers != null ? numbers : true}">
                     <label for="numbers">0-9 (Цифры)</label>
                 </div>
                 <div class="checkbox-item">
                     <input type="checkbox"
                            id="symbols"
-                           name="symbols">
+                           name="symbols"
+                           th:checked="${symbols != null ? symbols : true}">
                     <label for="symbols">!@#$% (Спецсимволы)</label>
                 </div>
             </div>
@@ -146,10 +165,16 @@
         <button type="submit">Сгенерировать пароль</button>
     </form>
 
-    <!-- Блок для отображения результата -->
-    <div class="password-result" th:if="${generatedPassword}">
+    <div class="error-message" th:if="${success == false}">
+        <div class="error-content">
+            <h3>❌ Ошибка</h3>
+            <p th:text="${error}">Сообщение об ошибке</p>
+        </div>
+    </div>
+
+    <div class="password-result" th:if="${success == true}">
         <h3>✅ Ваш сгенерированный пароль:</h3>
-        <div class="password-text" th:text="${generatedPassword}"></div>
+        <div class="password-text" th:text="${generatedPassword}">Пароль появится здесь</div>
     </div>
 </div>
 </body>
