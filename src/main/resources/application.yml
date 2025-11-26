@@ -1,3 +1,6 @@
 spring:
   application:
     name: password-generator-app
+
+server:
+  port: ${PORT:8080}
