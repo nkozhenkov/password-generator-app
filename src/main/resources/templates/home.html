@@ -106,6 +106,33 @@
             color: #721c24;
             margin: 0;
         }
+
+        .copy-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #545b62;
+        }
+
+        .copy-message {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 5px;
+            border: 1px solid #c3e6cb;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -174,8 +201,41 @@
 
     <div class="password-result" th:if="${success == true}">
         <h3>✅ Ваш сгенерированный пароль:</h3>
-        <div class="password-text" th:text="${generatedPassword}">Пароль появится здесь</div>
+        <div class="password-text" id="passwordText" th:text="${generatedPassword}">Пароль появится здесь</div>
+    </div>
+
+    <button class="copy-btn" onclick="copyPassword()">
+        📋 Копировать пароль
+    </button>
+
+    <div class="copy-message" id="copyMessage">
+        ✅ Пароль скопирован в буфер обмена!
     </div>
 </div>
+
+<script>
+    function copyPassword() {
+        // Получаем текст пароля
+        const passwordText = document.getElementById('passwordText').textContent;
+
+        // Копируем в буфер обмена
+        navigator.clipboard.writeText(passwordText)
+            .then(() => {
+                // Показываем сообщение об успехе
+                const message = document.getElementById('copyMessage');
+                message.style.display = 'block';
+
+                // Скрываем сообщение через 2 секунды
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 2000);
+            })
+            .catch(err => {
+                console.error('Ошибка при копировании: ', err);
+                alert('Не удалось скопировать пароль');
+            });
+    }
+</script>
+
 </body>
 </html>

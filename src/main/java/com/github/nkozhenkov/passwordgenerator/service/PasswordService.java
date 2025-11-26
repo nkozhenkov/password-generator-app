@@ -24,40 +24,24 @@ public class PasswordService {
         }
 
         StringBuilder availableChars = new StringBuilder();
-        if (uppercase) {
-            availableChars.append(UPPERCASE);
-        }
+        if (uppercase) availableChars.append(UPPERCASE);
 
-        if (lowercase) {
-            availableChars.append(LOWERCASE);
-        }
+        if (lowercase) availableChars.append(LOWERCASE);
 
-        if (numbers) {
-            availableChars.append(NUMBERS);
-        }
+        if (numbers) availableChars.append(NUMBERS);
 
-        if (symbols) {
-            availableChars.append(SYMBOLS);
-        }
+        if (symbols) availableChars.append(SYMBOLS);
 
         StringBuilder password = new StringBuilder();
 
         List<Character> guaranteedChars = new ArrayList<>();
-        if (uppercase) {
-            guaranteedChars.add(getRandomChar(UPPERCASE));
-        }
+        if (uppercase) guaranteedChars.add(getRandomChar(UPPERCASE));
 
-        if (lowercase) {
-            guaranteedChars.add(getRandomChar(LOWERCASE));
-        }
+        if (lowercase) guaranteedChars.add(getRandomChar(LOWERCASE));
 
-        if (numbers) {
-            guaranteedChars.add(getRandomChar(NUMBERS));
-        }
+        if (numbers) guaranteedChars.add(getRandomChar(NUMBERS));
 
-        if (symbols) {
-            guaranteedChars.add(getRandomChar(SYMBOLS));
-        }
+        if (symbols) guaranteedChars.add(getRandomChar(SYMBOLS));
 
         for (Character c : guaranteedChars) {
             password.append(c);
